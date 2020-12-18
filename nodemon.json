@@ -1,0 +1,8 @@
+{
+  "watch": [
+    "dev"
+  ],
+  "ext": ".ts,.js",
+  "ignore": [],
+  "exec": "yarn tsc ./dev/*"
+}

@@ -4,17 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node dev/test.js"
+    "test": "tsc && dev/test.js",
+    "start:dev": "nodemon"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
     "eslint": "^7.15.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1"
   },
   "dependencies": {
-    "sha256": "^0.2.0"
+    "@types/node": "^14.14.14",
+    "nodemon": "^2.0.6",
+    "sha256": "^0.2.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
   }
 }
