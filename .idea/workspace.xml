@@ -2,15 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7926a90-22fa-4423-8f56-4abe0c8f5d51" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.editorConfig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/nodemon.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/server/app.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/server/controllers/blockchain-controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dev/server/router/blockchain-router.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/blockchain.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/blockchain.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/blockchain.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/blockchain.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/blockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dev/blockchain/blockchain.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/dev/tests/blockchain.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dev/tests/blockchain.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="tsconfig.json" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -30,6 +36,7 @@
   <component name="ProjectId" id="1lpNLoN59YNdRxVxtm9iiVPOCzw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
@@ -39,7 +46,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="12.18.3" />
-    <property name="javascript.nodejs.core.library.typings.version" value="12.19.9" />
+    <property name="javascript.nodejs.core.library.typings.version" value="12.19.11" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -49,13 +56,24 @@
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="settings.javascript.linters.eslint" />
-    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dev/tests" />
+      <recent name="$PROJECT_DIR$/dev/blockchain" />
       <recent name="$PROJECT_DIR$" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="yarn start" />
+      <command value="yarn dev" />
+      <command value="yarn test" />
+      <command value="yarn start:dev" />
+      <command value="tsc" />
+    </option>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -65,7 +83,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608290019879</updated>
-      <workItem from="1608290021077" duration="7615000" />
+      <workItem from="1608290021077" duration="7871000" />
+      <workItem from="1608830098115" duration="207000" />
+      <workItem from="1609007137888" duration="3244000" />
+      <workItem from="1609103941778" duration="424000" />
+      <workItem from="1609534682156" duration="247000" />
     </task>
     <servers />
   </component>

@@ -1,3 +1,4 @@
+"use strict";
 var sha256 = require('sha256');
 function Blockchain() {
     // @ts-ignore
@@ -14,7 +15,7 @@ Blockchain.prototype.createNewBlock = function (nonce, previousBlockHash, hash) 
         transactions: this.pendingTransactions,
         nonce: nonce,
         hash: hash,
-        previousBlockHash: previousBlockHash
+        previousBlockHash: previousBlockHash,
     };
     this.pendingTransactions = [];
     this.chain.push(newBlock);
@@ -27,7 +28,7 @@ Blockchain.prototype.createNewTransaction = function (amount, sender, recipient)
     var newTransaction = {
         amount: amount,
         sender: sender,
-        recipient: recipient
+        recipient: recipient,
     };
     this.pendingTransactions.push(newTransaction);
     return this.getLastBlock().index;

@@ -1,7 +1,6 @@
-const BlockchainInstance = require('./blockchain.ts');
+const BlockchainInstance = require('./blockchain-router.ts');
 
 const bitcoin = new BlockchainInstance();
-
 const previousBlockHash = 'AZERTYUIOP4567DFD';
 const currentBlockData = [
   {
@@ -20,7 +19,5 @@ const currentBlockData = [
     recipient: 'FfdsGDFGsdfDFGFG',
   },
 ];
-
 const nonce = 100;
-
 console.log(bitcoin.hashBlock(previousBlockHash, currentBlockData, nonce));
