@@ -4,7 +4,7 @@ var blockchainRoutes = express.Router();
 var blockchain = require('../../blockchain/blockchain');
 var ipseicoin = new blockchain();
 blockchainRoutes
-    .get('/blockchain', function (req, res) {
+    .get('/', function (req, res) {
     console.log('BlockChainController', req, res);
     res.send(ipseicoin);
 })
@@ -13,7 +13,7 @@ blockchainRoutes
     res.send('ok');
 })
     .post('/transaction', function (req, res) {
-    console.log('blockcahinController', req.body);
-    res.send("the amount of bitcoin is " + req.body.amount);
+    var blockIndex = ipseicoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
+    res.json("note: transaction will be added in block " + blockIndex + ".");
 });
 module.exports = blockchainRoutes;
