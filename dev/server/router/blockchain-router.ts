@@ -1,18 +1,22 @@
 const express = require('express');
 
-const blockchain = express.Router();
+const blockchainRoutes = express.Router();
+const blockchain = require('../../blockchain/blockchain');
 
-blockchain
+const ipseicoin = new (blockchain as any)();
+
+blockchainRoutes
   .get('/blockchain', (req: any, res: any) => {
     console.log('BlockChainController', req, res);
+    res.send(ipseicoin);
   })
-
   .get('/mine', (req:any, res:any) => {
     console.log('minage', req, res);
+    res.send('ok');
   })
-
   .post('/transaction', (req: any, res: any) => {
-    console.log('blockcahinController', req, res);
+    console.log('blockcahinController', req.body);
+    res.send(`the amount of bitcoin is ${req.body.amount}`);
   });
 
-export default { blockchain };
+module.exports = blockchainRoutes;

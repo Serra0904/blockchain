@@ -1,8 +1,12 @@
 {
-  "watch": [
-    "dev"
-  ],
-  "ext": ".ts,.js",
-  "ignore": [],
-  "exec": "yarn tsc ./dev/*"
+  "restartable": "rs",
+  "ignore": [".git", "node_modules/", "dist/", "coverage/"],
+  "watch": ["dev"],
+  "execMap": {
+    "ts": "node -r ts-node/register"
+  },
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js,json,ts"
 }
