@@ -1,11 +1,11 @@
 "use strict";
 var sha256 = require('sha256');
+var currentUrl = process.argv[3];
 function Blockchain() {
-    // @ts-ignore
     this.chain = [];
-    // @ts-ignore
     this.pendingTransactions = [];
-    // @ts-ignore
+    this.currentNode = currentUrl;
+    this.networkNodes = [];
     this.createNewBlock(100, '0', '0');
 }
 Blockchain.prototype.createNewBlock = function (nonce, previousBlockHash, hash) {

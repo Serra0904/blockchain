@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "tsc && build/app.js",
-    "start:dev": "nodemon"
+    "start:dev": "nodemon 3001",
+    "node_1": "nodemon 3001 http://localhost:3001",
+    "node_2": "nodemon 3002 http://localhost:3002",
+    "node_3": "nodemon 3003 http://localhost:3003",
+    "node_4": "nodemon 3004 http://localhost:3004",
+    "node_5": "nodemon 3005 http://localhost:3005"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +30,8 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.6",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "sha256": "^0.2.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3",

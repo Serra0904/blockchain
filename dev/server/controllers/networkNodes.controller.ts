@@ -1,13 +1,12 @@
 import { v1 as uuid } from 'uuid';
 
 const express = require('express');
+const rp = require('request-promise');
 
 const blockchainRoutes = express.Router();
-
 const blockchain = require('../../blockchain/blockchain');
 
 const ipseicoin = new (blockchain as any)();
-
 const nodeAddress = uuid().split('-').join('');
 
 blockchainRoutes
@@ -33,6 +32,40 @@ blockchainRoutes
   .post('/transaction', (req: any, res: any) => {
     const blockIndex = ipseicoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
     res.json(`note: transaction will be added in block ${blockIndex}.`);
+  })
+  .post('/broadcast-node', (req: any, res: any) => {
+    const { newNodeUrl } = req.body;
+    if (ipseicoin.networkNodes.indexOf(newNodeUrl) === -1) ipseicoin.networkNodes.push(newNodeUrl);
+    const registerNodesPromises: Array<Promise<any>> = [];
+    ipseicoin.networkNodes.forEach((networkNodeUrl: string) => {
+      const requestOptions = {
+        uri: `${networkNodeUrl}/register-node`,
+        method: 'POST',
+        body: { newNodeUrl },
+        json: true,
+      };
+      registerNodesPromises.push(rp(requestOptions));
+    });
+    Promise.all(registerNodesPromises).then(() => {
+      const requestOptions = {
+        uri: `${newNodeUrl}/register-node-bulk`,
+        method: 'POST',
+        body: { allNetworkNodes: [...ipseicoin.networkNodes, ipseicoin.currentNode] },
+        json: true,
+      };
+      return rp(requestOptions);
+    }).then(() => {
+      res.json({ note: 'NEW NODE CREATED' });
+    })
+      .catch((err) => {
+        console.error(err);
+      });
+  })
+  .post('/register-node', (req: any, res: any) => {
+    // const { newNodeUrl } = req.body;
+  })
+  .post('/register-node-bulk', (req: any, res: any) => {
+    // const { newNodeUrl } = req.body;
   });
 
 module.exports = blockchainRoutes;

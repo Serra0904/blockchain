@@ -3,10 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var blockchainRouter = require('./router/blockchain-router');
+var blockchainController = require('./controllers/networkNodes.controller');
+var port = process.argv[2];
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/blockchain', blockchainRouter);
-app.listen(3000, function () {
-    console.log('App listening on port 3000...');
+app.use('/blockchain', blockchainController);
+app.listen(port, function () {
+    console.log("App listening on port " + port + "...");
 });
