@@ -1,7 +1,9 @@
+import { v1 as uuid } from 'uuid';
+
 const express = require('express');
 
 const blockchainRoutes = express.Router();
-const uuid = require('uuid');
+
 const blockchain = require('../../blockchain/blockchain');
 
 const ipseicoin = new (blockchain as any)();
@@ -10,7 +12,6 @@ const nodeAddress = uuid().split('-').join('');
 
 blockchainRoutes
   .get('/', (req: any, res: any) => {
-    console.log('BlockChainController', req, res);
     res.send(ipseicoin);
   })
   .get('/mine', (req:any, res:any) => {
