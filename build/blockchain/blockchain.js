@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var uuid_1 = require("uuid");
 var sha256 = require('sha256');
 var currentUrl = process.argv[3];
 function Blockchain() {
@@ -25,12 +27,15 @@ Blockchain.prototype.getLastBlock = function () {
     return this.chain[this.chain.length - 1];
 };
 Blockchain.prototype.createNewTransaction = function (amount, sender, recipient) {
-    var newTransaction = {
+    return {
         amount: amount,
         sender: sender,
         recipient: recipient,
+        transactionId: uuid_1.v1().split('-').join(''),
     };
-    this.pendingTransactions.push(newTransaction);
+};
+Blockchain.prototype.addTransactionToPendingTransactions = function (transaction) {
+    this.pendingTransactions.push(transaction);
     return this.getLastBlock().index + 1;
 };
 Blockchain.prototype.hashBlock = function (previousBlockHash, currentBlockData, nonce) {

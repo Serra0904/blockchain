@@ -30,8 +30,28 @@ blockchainRoutes
     });
   })
   .post('/transaction', (req: any, res: any) => {
-    const blockIndex = ipseicoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
-    res.json(`note: transaction will be added in block ${blockIndex}.`);
+    const blockIndex = ipseicoin.addTransactionToPendingTransactions(req.body);
+    res.json({ note: `Transaction will be added in block ${blockIndex}` });
+  })
+  .post('/transaction/broadcast', (req: any, res: any) => {
+    const newTransaction = ipseicoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient);
+    ipseicoin.addTransactionToPendingTransactions(newTransaction);
+    const requestsPromises: Array<Promise<any>> = [];
+    ipseicoin.networkNodes.forEach((networkNodeUrl: any) => {
+      const requestOptions = {
+        uri: `${networkNodeUrl}/blockchain/transaction`,
+        method: 'POST',
+        body: { newTransaction },
+        json: true,
+      };
+      requestsPromises.push(rp(requestOptions));
+    });
+    Promise.all(requestsPromises).then(() => {
+      res.json({ note: 'Broadcast successfully' });
+    }).catch((err) => {
+      console.error(err);
+      res.json({ note: 'Error', err });
+    });
   })
   .post('/broadcast-node', (req: any, res: any) => {
     const { newNodeUrl } = req.body;
