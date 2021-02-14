@@ -39,7 +39,7 @@ blockchainRoutes
     const registerNodesPromises: Array<Promise<any>> = [];
     ipseicoin.networkNodes.forEach((networkNodeUrl: string) => {
       const requestOptions = {
-        uri: `${networkNodeUrl}/register-node`,
+        uri: `${networkNodeUrl}/blockchain/register-node`,
         method: 'POST',
         body: { newNodeUrl },
         json: true,
@@ -48,7 +48,7 @@ blockchainRoutes
     });
     Promise.all(registerNodesPromises).then(() => {
       const requestOptions = {
-        uri: `${newNodeUrl}/register-node-bulk`,
+        uri: `${newNodeUrl}/blockchain/register-nodes-bulk`,
         method: 'POST',
         body: { allNetworkNodes: [...ipseicoin.networkNodes, ipseicoin.currentNode] },
         json: true,
@@ -68,8 +68,14 @@ blockchainRoutes
     if (alreadyRegistered && isCurrentNode) ipseicoin.networkNodes.push(newNodeUrl);
     res.json({ note: 'NEW NODE REGISTERED' });
   })
-  .post('/register-node-bulk', (req: any, res: any) => {
-    // const { newNodeUrl } = req.body;
+  .post('/register-nodes-bulk', (req: any, res: any) => {
+    const { allNetworkNodes } = req.body;
+    allNetworkNodes.forEach((networkNodeUrl: any) => {
+      const nodeNotAlreadyExist = ipseicoin.networkNodes.indexOf(networkNodeUrl) === -1;
+      const notCurrentNode = ipseicoin.currentNode !== networkNodeUrl;
+      if (nodeNotAlreadyExist && notCurrentNode) ipseicoin.networkNodes.push(networkNodeUrl);
+    });
+    res.json({ note: 'ALL NODES REGISTERED' });
   });
 
 module.exports = blockchainRoutes;

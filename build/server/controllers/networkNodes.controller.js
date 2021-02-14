@@ -1,7 +1,15 @@
 "use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var uuid_1 = require("uuid");
 var express = require('express');
+var rp = require('request-promise');
 var blockchainRoutes = express.Router();
 var blockchain = require('../../blockchain/blockchain');
 var ipseicoin = new blockchain();
@@ -34,14 +42,47 @@ blockchainRoutes
     var newNodeUrl = req.body.newNodeUrl;
     if (ipseicoin.networkNodes.indexOf(newNodeUrl) === -1)
         ipseicoin.networkNodes.push(newNodeUrl);
+    var registerNodesPromises = [];
     ipseicoin.networkNodes.forEach(function (networkNodeUrl) {
-        console.log(networkNodeUrl);
+        var requestOptions = {
+            uri: networkNodeUrl + "/blockchain/register-node",
+            method: 'POST',
+            body: { newNodeUrl: newNodeUrl },
+            json: true,
+        };
+        registerNodesPromises.push(rp(requestOptions));
+    });
+    Promise.all(registerNodesPromises).then(function () {
+        var requestOptions = {
+            uri: newNodeUrl + "/blockchain/register-nodes-bulk",
+            method: 'POST',
+            body: { allNetworkNodes: __spreadArrays(ipseicoin.networkNodes, [ipseicoin.currentNode]) },
+            json: true,
+        };
+        return rp(requestOptions);
+    }).then(function () {
+        res.json({ note: 'NEW NODE CREATED' });
+    })
+        .catch(function (err) {
+        res.json({ note: 'ERROR WHILE NEW NODE CREATED', err: err });
     });
 })
     .post('/register-node', function (req, res) {
-    // const { newNodeUrl } = req.body;
+    var newNodeUrl = req.body.newNodeUrl;
+    var alreadyRegistered = ipseicoin.networkNodes.indexOf(newNodeUrl) === -1;
+    var isCurrentNode = ipseicoin.currentNode !== newNodeUrl;
+    if (alreadyRegistered && isCurrentNode)
+        ipseicoin.networkNodes.push(newNodeUrl);
+    res.json({ note: 'NEW NODE REGISTERED' });
 })
-    .post('/register-node-bulk', function (req, res) {
-    // const { newNodeUrl } = req.body;
+    .post('/register-nodes-bulk', function (req, res) {
+    var allNetworkNodes = req.body.allNetworkNodes;
+    allNetworkNodes.forEach(function (networkNodeUrl) {
+        var nodeNotAlreadyExist = ipseicoin.networkNodes.indexOf(networkNodeUrl) === -1;
+        var notCurrentNode = ipseicoin.currentNode !== networkNodeUrl;
+        if (nodeNotAlreadyExist && notCurrentNode)
+            ipseicoin.networkNodes.push(networkNodeUrl);
+    });
+    res.json({ note: 'ALL NODES REGISTERED' });
 });
 module.exports = blockchainRoutes;
