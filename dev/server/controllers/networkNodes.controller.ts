@@ -58,11 +58,15 @@ blockchainRoutes
       res.json({ note: 'NEW NODE CREATED' });
     })
       .catch((err) => {
-        console.error(err);
+        res.json({ note: 'ERROR WHILE NEW NODE CREATED', err });
       });
   })
   .post('/register-node', (req: any, res: any) => {
-    // const { newNodeUrl } = req.body;
+    const { newNodeUrl } = req.body;
+    const alreadyRegistered = ipseicoin.networkNodes.indexOf(newNodeUrl) === -1;
+    const isCurrentNode = ipseicoin.currentNode !== newNodeUrl;
+    if (alreadyRegistered && isCurrentNode) ipseicoin.networkNodes.push(newNodeUrl);
+    res.json({ note: 'NEW NODE REGISTERED' });
   })
   .post('/register-node-bulk', (req: any, res: any) => {
     // const { newNodeUrl } = req.body;
