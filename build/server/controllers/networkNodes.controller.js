@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -29,10 +40,47 @@ blockchainRoutes
     var blockHash = ipseicoin.hashBlock(previousBlockHash, currentBlock, nonce);
     ipseicoin.createNewTransaction(12.5, '00', nodeAddress);
     var newBlock = ipseicoin.createNewBlock(nonce, previousBlockHash, blockHash);
-    res.json({
-        note: 'newBlock mined successfully',
-        block: newBlock,
+    var requestsPromises = [];
+    ipseicoin.networkNodes.forEach(function (networkNodeUrl) {
+        var requestOptions = {
+            uri: networkNodeUrl + "/blockchain/receive-new-block",
+            method: 'POST',
+            body: { newBlock: newBlock },
+            json: true,
+        };
+        requestsPromises.push(rp(requestOptions));
     });
+    Promise.all(requestsPromises).then(function () {
+        var requestOptions = {
+            uri: ipseicoin.currentNode + "/blockchain/transaction/broadcast",
+            method: 'POST',
+            body: { amount: 345, sender: '00', recipient: nodeAddress },
+            json: true,
+        };
+        return rp(requestOptions);
+    }).then(function () {
+        res.json({
+            note: 'New block created & broadcast successfully',
+            newBlock: newBlock,
+        });
+    })
+        .catch(function (err) {
+        console.log(err);
+    });
+})
+    .post('/receive-new-block', function (req, res) {
+    var newBlock = req.body.newBlock;
+    var lastBlock = ipseicoin.getLastBlock();
+    var isHashCorrect = lastBlock.hash === newBlock.previousBlockHash;
+    var isIndexCorrect = lastBlock.index + 1 === newBlock.index;
+    if (isHashCorrect && isIndexCorrect) {
+        ipseicoin.chain.push(newBlock);
+        ipseicoin.pendingTransactions = [];
+        res.json({ note: 'newBlock received && pendingTransactions empty', newBlock: newBlock });
+    }
+    else {
+        res.json({ note: 'newBlock rejected && corrupted', newBlock: newBlock });
+    }
 })
     .post('/transaction', function (req, res) {
     var blockIndex = ipseicoin.addTransactionToPendingTransactions(req.body);
@@ -46,7 +94,7 @@ blockchainRoutes
         var requestOptions = {
             uri: networkNodeUrl + "/blockchain/transaction",
             method: 'POST',
-            body: { newTransaction: newTransaction },
+            body: __assign({}, newTransaction),
             json: true,
         };
         requestsPromises.push(rp(requestOptions));

@@ -24,10 +24,47 @@ blockchainRoutes
     const blockHash = ipseicoin.hashBlock(previousBlockHash, currentBlock, nonce);
     ipseicoin.createNewTransaction(12.5, '00', nodeAddress);
     const newBlock = ipseicoin.createNewBlock(nonce, previousBlockHash, blockHash);
-    res.json({
-      note: 'newBlock mined successfully',
-      block: newBlock,
+
+    const requestsPromises: Array<Promise<any>> = [];
+    ipseicoin.networkNodes.forEach((networkNodeUrl: any) => {
+      const requestOptions = {
+        uri: `${networkNodeUrl}/blockchain/receive-new-block`,
+        method: 'POST',
+        body: { newBlock },
+        json: true,
+      };
+      requestsPromises.push(rp(requestOptions));
     });
+
+    Promise.all(requestsPromises).then(() => {
+      const requestOptions = {
+        uri: `${ipseicoin.currentNode}/blockchain/transaction/broadcast`,
+        method: 'POST',
+        body: { amount: 345, sender: '00', recipient: nodeAddress },
+        json: true,
+      };
+      return rp(requestOptions);
+    }).then(() => {
+      res.json({
+        note: 'New block created & broadcast successfully', newBlock,
+      });
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+  })
+  .post('/receive-new-block', (req: any, res: any) => {
+    const { newBlock } = req.body;
+    const lastBlock = ipseicoin.getLastBlock();
+    const isHashCorrect = lastBlock.hash === newBlock.previousBlockHash;
+    const isIndexCorrect = lastBlock.index + 1 === newBlock.index;
+    if (isHashCorrect && isIndexCorrect) {
+      ipseicoin.chain.push(newBlock);
+      ipseicoin.pendingTransactions = [];
+      res.json({ note: 'newBlock received && pendingTransactions empty', newBlock });
+    } else {
+      res.json({ note: 'newBlock rejected && corrupted', newBlock });
+    }
   })
   .post('/transaction', (req: any, res: any) => {
     const blockIndex = ipseicoin.addTransactionToPendingTransactions(req.body);
@@ -41,7 +78,7 @@ blockchainRoutes
       const requestOptions = {
         uri: `${networkNodeUrl}/blockchain/transaction`,
         method: 'POST',
-        body: { newTransaction },
+        body: { ...newTransaction },
         json: true,
       };
       requestsPromises.push(rp(requestOptions));

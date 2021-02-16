@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var uuid_1 = require("uuid");
 var sha256 = require('sha256');
 var currentUrl = process.argv[3];
+// eslint-disable-next-line no-unused-vars
 function Blockchain() {
     this.chain = [];
     this.pendingTransactions = [];

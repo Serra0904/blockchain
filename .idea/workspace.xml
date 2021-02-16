@@ -7,6 +7,8 @@
       <change beforePath="$PROJECT_DIR$/build/server/controllers/networkNodes.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/build/server/controllers/networkNodes.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/blockchain/blockchain.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dev/blockchain/blockchain.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dev/server/controllers/networkNodes.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dev/server/controllers/networkNodes.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +93,10 @@
       <workItem from="1609534682156" duration="1205000" />
       <workItem from="1609619721566" duration="4861000" />
       <workItem from="1609670143037" duration="955000" />
-      <workItem from="1613312987085" duration="8213000" />
+      <workItem from="1613312987085" duration="8449000" />
+      <workItem from="1613389951327" duration="308000" />
+      <workItem from="1613401041156" duration="1942000" />
+      <workItem from="1613490397046" duration="3586000" />
     </task>
     <servers />
   </component>

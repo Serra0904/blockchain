@@ -4,6 +4,7 @@ const sha256 = require('sha256');
 
 const currentUrl = process.argv[3];
 
+// eslint-disable-next-line no-unused-vars
 function Blockchain(this: any) {
   this.chain = [];
   this.pendingTransactions = [];

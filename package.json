@@ -6,6 +6,7 @@
   "scripts": {
     "test": "tsc && build/app.js",
     "start:dev": "nodemon 3001",
+    "start:all": "concurrently \" nodemon 3001 http://localhost:3001 \" \" nodemon 3002 http://localhost:3002\" \" nodemon 3003 http://localhost:3003\"  \" nodemon 3004 http://localhost:3004\"  \" nodemon 3005 http://localhost:3005\"   ",
     "node_1": "nodemon 3001 http://localhost:3001",
     "node_2": "nodemon 3002 http://localhost:3002",
     "node_3": "nodemon 3003 http://localhost:3003",
@@ -28,6 +29,7 @@
     "@types/node": "^14.14.14",
     "@types/uuid": "^8.3.0",
     "body-parser": "^1.19.0",
+    "concurrently": "^5.3.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.6",
     "request": "^2.88.2",
